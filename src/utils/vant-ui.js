@@ -1,6 +1,6 @@
 
 import Vue from 'vue'
-import { Button, Tabbar, TabbarItem, NavBar, Form, Field, Toast, Cell, CellGroup } from 'vant'
+import { Button, Tabbar, TabbarItem, NavBar, Form, Field, Toast, Cell, CellGroup, List } from 'vant'
 
 // 按需引入 Button 组件
 Vue.use(Button)
@@ -13,3 +13,5 @@ Vue.use(Toast)
 
 Vue.use(Cell)
 Vue.use(CellGroup)
+
+Vue.use(List)

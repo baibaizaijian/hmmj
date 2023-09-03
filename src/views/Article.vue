@@ -1,11 +1,22 @@
 <template>
   <div class="article-page">
     <nav class="my-nav van-hairline--bottom">
-      <a href="javascript:;">推荐</a>
-      <a href="javascript:;">最新</a>
+      <a :class="{active : sorter}" href="javascript:;" @click="change('weight_desc')">推荐</a>
+      <a :class="{active : !sorter}" href="javascript:;" @click="change(null)">最新</a>
       <div class="logo"><img src="@/assets/logo.png" alt="" /></div>
     </nav>
-    <article-item v-for="(item) in list" :key="item.id" :item="item"></article-item>
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
+      <article-item
+        v-for="item in list"
+        :key="item.id"
+        :item="item"
+      ></article-item>
+    </van-list>
   </div>
 </template>
 
@@ -13,18 +24,43 @@
 import { getArticle } from '@/api/article'
 export default {
   name: 'article-page',
-  async created () {
-    const res = await getArticle({
-      current: 1,
-      pageSize: 10,
-      sorter: ' weight_desc'
-    })
-    console.log(res.data.rows)
-    this.list = res.data.rows
-  },
+
   data () {
     return {
-      list: []
+      list: [],
+      loading: false,
+      finished: false,
+      current: 1,
+      sorter: 'weight_desc'
+    }
+  },
+  methods: {
+    async onLoad () {
+      console.log('到底部了')
+      const res = await getArticle({
+        current: this.current,
+        pageSize: 10,
+        sorter: this.sorter
+      })
+      console.log(res.data.rows)
+      // 页数自增加一
+      this.current++
+      // 追加数组
+      this.list.push(...res.data.rows)
+      // 请求完成,改变loading改为false
+      this.loading = false
+      // 判断是否到底
+      if (this.current > res.data.pageTotal) {
+        this.finished = true
+      }
+    },
+    change (sorter) {
+      this.current = 1
+      this.sorter = sorter
+      this.list = []
+      this.finished = false
+      this.onLoad()
+      this.loading = true
     }
   }
 }
