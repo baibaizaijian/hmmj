@@ -26,6 +26,9 @@
 </template>
 
 <script>
+// 映入模块
+import { register } from '@/api/user'
+import { Toast } from 'vant'
 export default {
   name: 'RegisterPage',
   data () {
@@ -35,8 +38,19 @@ export default {
     }
   },
   methods: {
-    onSubmit (values) {
-      console.log('submit', values)
+    // 组件搜集函数
+    async onSubmit (data) {
+      console.log('submit', data)
+      // try {
+      //   const res = await register(data)
+      //   console.log(res)
+      //   Toast.success('成功文案')
+      // } catch (error) {
+      //   console.dir(error)
+      // }
+      await register(data)
+      Toast.success('注册成功')
+      this.$router.push('/login')
     }
   }
 }

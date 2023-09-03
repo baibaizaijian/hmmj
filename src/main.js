@@ -11,7 +11,8 @@ import router from './router'
 // 同样, 自动修复代码, 也只能修复规范错误, 逻辑错误无法修复
 // 导入按需引入的配置文件
 import '@/utils/vant-ui'
-
+import ArticleItem from '@/components/ArticleItem'
+Vue.component('ArticleItem', ArticleItem)
 Vue.config.productionTip = false
 
 // 注册 Button 组件

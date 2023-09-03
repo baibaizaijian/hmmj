@@ -11,6 +11,9 @@ import Collect from '@/views/Collect'
 import Like from '@/views/Like'
 import User from '@/views/User'
 
+import { getToken } from '@/utils/storage'
+import { Toast } from 'vant'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,9 +31,28 @@ const routes = [
     ]
   }
 ]
-
+const whiteList = ['/login', '/register']
 const router = new VueRouter({
   routes
+})
+// 全局前置守卫
+router.beforeEach((to, from, next) => {
+  console.log(to.path)
+  // 获取token
+  const token = getToken()
+  if (token) {
+    // 如果有，就通过
+    next()
+  } else {
+    // 如果没有，判断是不是去去白名单
+    if (whiteList.includes(to.path)) {
+      next()
+    } else {
+      // 都不是，打回登录页
+      next('/login')
+      Toast.fail('请先登录')
+    }
+  }
 })
 
 export default router
