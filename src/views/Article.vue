@@ -4,10 +4,10 @@
       <a
         :class="{ active: sorter }"
         href="javascript:;"
-        @click="change('weight_desc')"
+        @click="throttledClick('weight_desc')"
         >推荐</a
       >
-      <a :class="{ active: !sorter }" href="javascript:;" @click="change(null)"
+      <a :class="{ active: !sorter }" href="javascript:;" @click="throttledClick(null)"
         >最新</a
       >
       <div class="logo"><img src="@/assets/logo.png" alt="" /></div>
@@ -45,15 +45,12 @@ export default {
       current: 1,
       sorter: 'weight_desc',
       count: 0,
-      isLoading: false
+      isLoading: false,
+      // 定义节流后的函数
+      throttledClick: this.throttle(this.change, 300)
     }
   },
-  // directives: {
-  //   throttleClick: {
-  //     inserted (el, binding) {
-  //       el.addEventListener('click', this.throttle(binding.value, 500))
-  //     }
-  //   },
+
   methods: {
     async onLoad () {
       console.log('到底部了')
@@ -96,22 +93,27 @@ export default {
         this.isLoading = false
         this.count++
       }, 1000)
+    },
+    // 节流函数
+    throttle (func, delay) {
+      let timeoutId
+      return function () {
+        const context = this
+        // console.log(arguments)
+        // arguments函数的形参，以数组方式保存
+        const args = arguments
+
+        if (!timeoutId) {
+          timeoutId = setTimeout(function () {
+            // 改变this指向，并调用，apply传入参数一个是数组，call则需要展开
+            // func.call(context, ...args)
+            func.apply(context, args)
+            timeoutId = null
+          }, delay)
+        }
+      }
     }
-    // throttle (func, delay) {
-    //   let timeoutId
 
-    //   return function () {
-    //     const context = this
-    //     const args = arguments
-
-    //     if (!timeoutId) {
-    //       timeoutId = setTimeout(function () {
-    //         func.apply(context, args)
-    //         timeoutId = null
-    //       }, delay)
-    //     }
-    //   }
-    // }
   }
 }
 

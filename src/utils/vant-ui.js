@@ -1,6 +1,6 @@
 
 import Vue from 'vue'
-import { Button, Tabbar, TabbarItem, NavBar, Form, Field, Toast, Cell, CellGroup, List, PullRefresh, Icon } from 'vant'
+import { Button, Tabbar, TabbarItem, NavBar, Form, Field, Toast, Cell, CellGroup, List, PullRefresh, Icon, Grid, GridItem } from 'vant'
 
 // 按需引入 Button 组件
 Vue.use(Button)
@@ -20,3 +20,6 @@ Vue.use(PullRefresh)
 Vue.use(List)
 
 Vue.use(Icon)
+// 宫格
+Vue.use(Grid)
+Vue.use(GridItem)

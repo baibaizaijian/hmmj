@@ -1,5 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
+  // 指定打包后的项目部署在服务器的什么路径，./表示所有资源使用的相对路径，可以部署在任何路径
+  publicPath: './',
   transpileDependencies: true,
   css: {
     loaderOptions: {

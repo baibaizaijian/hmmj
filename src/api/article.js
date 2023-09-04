@@ -10,3 +10,5 @@ export function getDetail (id) {
   })
 }
 export const updateLike = data => request.post('/h5/interview/opt', data)
+
+export const getLikeOrCollect = params => request.get('/h5/interview/opt/list', { params })

@@ -1,18 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// 1.引入组件
-import Register from '@/views/Register'
-import Detail from '@/views/Detail'
-import Login from '@/views/Login'
-import Layout from '@/views/Layout'
-// 2级路由
-import Article from '@/views/Article'
-import Collect from '@/views/Collect'
-import Like from '@/views/Like'
-import User from '@/views/User'
 
 import { getToken } from '@/utils/storage'
 import { Toast } from 'vant'
+// 1.引入组件
+const Detail = () => import('@/views/Detail')
+const Login = () => import('@/views/Login')
+const Register = () => import('@/views/Register')
+const Layout = () => import('@/views/Layout')
+const Article = () => import('@/views/Article')
+const Collect = () => import('@/views/Collect')
+const Like = () => import('@/views/Like')
+const User = () => import('@/views/User')
 
 Vue.use(VueRouter)
 
@@ -24,6 +23,7 @@ const routes = [
     path: '/',
     component: Layout,
     children: [
+      { path: '', redirect: 'article' },
       { path: '/article', component: Article },
       { path: '/collect', component: Collect },
       { path: '/like', component: Like },
