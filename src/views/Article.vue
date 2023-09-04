@@ -1,11 +1,20 @@
 <template>
   <div class="article-page">
     <nav class="my-nav van-hairline--bottom">
-      <a :class="{active : sorter}" href="javascript:;" @click="change('weight_desc')">推荐</a>
-      <a :class="{active : !sorter}" href="javascript:;" @click="change(null)">最新</a>
+      <a
+        :class="{ active: sorter }"
+        href="javascript:;"
+        @click="change('weight_desc')"
+        >推荐</a
+      >
+      <a :class="{ active: !sorter }" href="javascript:;" @click="change(null)"
+        >最新</a
+      >
       <div class="logo"><img src="@/assets/logo.png" alt="" /></div>
     </nav>
-    <van-list
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+
+      <van-list
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
@@ -17,11 +26,14 @@
         :item="item"
       ></article-item>
     </van-list>
+    </van-pull-refresh>
+
   </div>
 </template>
 
 <script>
 import { getArticle } from '@/api/article'
+import { Toast } from 'vant'
 export default {
   name: 'article-page',
 
@@ -31,9 +43,17 @@ export default {
       loading: false,
       finished: false,
       current: 1,
-      sorter: 'weight_desc'
+      sorter: 'weight_desc',
+      count: 0,
+      isLoading: false
     }
   },
+  // directives: {
+  //   throttleClick: {
+  //     inserted (el, binding) {
+  //       el.addEventListener('click', this.throttle(binding.value, 500))
+  //     }
+  //   },
   methods: {
     async onLoad () {
       console.log('到底部了')
@@ -61,10 +81,40 @@ export default {
       this.list = []
       this.finished = false
       this.onLoad()
+      // 已经在加载了
       this.loading = true
+    },
+    onRefresh () {
+      this.current = 1
+      this.list = []
+      this.finished = false
+      this.onLoad()
+      this.loading = true
+
+      setTimeout(() => {
+        Toast('刷新成功')
+        this.isLoading = false
+        this.count++
+      }, 1000)
     }
+    // throttle (func, delay) {
+    //   let timeoutId
+
+    //   return function () {
+    //     const context = this
+    //     const args = arguments
+
+    //     if (!timeoutId) {
+    //       timeoutId = setTimeout(function () {
+    //         func.apply(context, args)
+    //         timeoutId = null
+    //       }, delay)
+    //     }
+    //   }
+    // }
   }
 }
+
 </script>
 
 <style lang="less" scoped>

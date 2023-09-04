@@ -1,10 +1,10 @@
 <template>
-    <van-cell class="article-item" >
+    <van-cell @click="$router.push('/detail/' + item.id)"  class="article-item" >
       <template #title>
         <div class="head">
           <img :src="item.avatar" alt=""/>
           <div class="con">
-            <p class="title van-ellipsis">{{item.creator}}</p>
+            <p class="title van-ellipsis">{{item.stem}}</p>
             <p class="other">{{item.creator}}|{{item.createdAt}}</p>
           </div>
         </div>
