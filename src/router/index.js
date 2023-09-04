@@ -18,7 +18,7 @@ Vue.use(VueRouter)
 
 const routes = [
   { path: '/register', component: Register },
-  { path: '/detail', component: Detail },
+  { path: '/detail/:id', component: Detail },
   { path: '/login', component: Login },
   {
     path: '/',
@@ -35,6 +35,7 @@ const whiteList = ['/login', '/register']
 const router = new VueRouter({
   routes
 })
+
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
   console.log(to.path)

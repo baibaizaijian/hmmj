@@ -17,6 +17,7 @@ instance.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
   const token = getToken()
   if (token) {
+    // 请求头携带token,注意携带前缀格式.这里有个空格
     config.headers.Authorization = `Bearer ${token}`
   }
   return config
@@ -35,7 +36,7 @@ instance.interceptors.response.use(function (response) {
   console.dir(error)
   if (error.response) {
     if (error.response.status === 401) {
-      // 清除tooken
+      // 清除token
       delToken()
       // 提示用户
       Toast.fail('请您重新登录')

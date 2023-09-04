@@ -46,7 +46,8 @@ export default {
       // 页数自增加一
       this.current++
       // 追加数组
-      this.list.push(...res.data.rows)
+      this.list = this.list.concat(res.data.rows)
+      // this.list.push(...res.data.rows)
       // 请求完成,改变loading改为false
       this.loading = false
       // 判断是否到底

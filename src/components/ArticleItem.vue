@@ -10,8 +10,10 @@
         </div>
       </template>
       <template #label>
-        <div class="body van-multi-ellipsis--l2">
-          {{item.content.replace(/<.+?>/g,'')}}
+           <!-- 正则替换或者直接v-html -->
+          <!-- {{item.content.replace(/<.+?>/g,'')}} -->
+        <div v-html="item.content" class="body van-multi-ellipsis--l2">
+
         </div>
         <div class="foot">点赞{{item.likeCount}} | 浏览 {{item.views }}</div>
       </template>
